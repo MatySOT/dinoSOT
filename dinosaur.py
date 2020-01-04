@@ -9,6 +9,10 @@ import time
 pygame.init() # inicio de pygame
 fpsClock = pygame.time.Clock()
 
+font = pygame.font.Font('arial.ttf', 32)
+
+
+
 screen = pygame.display.set_mode([500, 500]) # pantalla
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
@@ -31,6 +35,7 @@ while True:
     if startTimer == True:
         t0 = time.time()
         startTimer = False
+    text = font.render(str(time.time() - t0), True, BLACK)
     cactusBox = []
     for i in range(0,10):
         cactusBox.append(pygame.Rect(cactusX[i]+10, 370, 30, 30))
@@ -65,12 +70,14 @@ while True:
         if dinosaurBox.colliderect(cactusBox[i]):
             for i in range(0,10):
                 cactusX[i] = cactusCopia[i]
+                print("El juego ha sido reiniciado!")
     screen.fill(WHITE)
 
     for i in range(0,10):
         screen.blit(cactus[i], (cactusX[i],350))
     pygame.draw.line(screen, BLACK, (0, 400), (1000, 400), 5)
     screen.blit(dinosaur, (0, dinosaurY))
+    screen.blit(text, (300, 0))
     if cactusX[0] <= -3000:
         if tiempoFinal == True:
             t1 = time.time()
@@ -79,6 +86,7 @@ while True:
         pygame.quit()
         sys.exit(0)
     #pygame.draw.rect(screen, (255, 0, 0), dinosaurBox)
-    for i in range(0,10):
-        pygame.draw.rect(screen, (0, 255, 0), cactusBox[i])
+    # mostrar hitbox de cactus
+    #for i in range(0,10):
+    #    pygame.draw.rect(screen, (0, 255, 0), cactusBox[i])
     pygame.display.flip()
